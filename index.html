@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TYPE//TANK</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="crt-overlay"></div>
+    <div id="app">
+        <header>
+            <div class="header-left">
+                <span id="header-callsign">OP: UNKNOWN</span>
+                <button id="btn-callsign">[SWITCH]</button>
+            </div>
+            <div class="header-title">TYPE//TANK</div>
+            <div class="header-right">
+                <button id="btn-crt">CRT:ON</button>
+                <button id="btn-aspect">ASP:AUTO</button>
+                <button id="btn-mute">SND:ON</button>
+            </div>
+        </header>
+
+        <!-- GAME HUD -->
+        <div id="game-hud" class="hidden">
+            <div>SCORE: <span id="hud-score">000000</span></div>
+            <div>COMBO: <span id="hud-combo">0</span></div>
+            <div>WPM: <span id="hud-wpm">0</span></div>
+            <div>ACC: <span id="hud-acc">100%</span></div>
+            <div class="health-wrap">HULL: <div class="health-bar"><div id="hud-health"></div></div></div>
+        </div>
+
+        <main>
+            <!-- LOGIN SCREEN -->
+            <div id="screen-login" class="screen hidden">
+                <div class="panel">
+                    <h2>+---[ OPERATOR AUTHENTICATION ]---+</h2>
+                    <p>ENTER CALLSIGN TO INITIATE TERMINAL</p>
+                    <div class="input-group">
+                        <span class="prompt">CALLSIGN></span>
+                        <input type="text" id="callsign-input" autocomplete="off" spellcheck="false" maxlength="15" autofocus>
+                    </div>
+                    <button id="btn-login-submit" class="btn">[ ENGAGE ] (ENTER)</button>
+                </div>
+            </div>
+
+            <!-- SETTINGS SCREEN -->
+            <div id="screen-settings" class="screen hidden">
+                <div class="panel">
+                    <h2>+---[ ARSENAL CONFIGURATION ]---+</h2>
+                    <div class="mode-grid">
+                        <div class="mode-card" data-mode="1">
+                            <h3>[ 1: ALPHA ]</h3>
+                            <p>LOWERCASE</p>
+                            <span class="sample">radar tank laser</span>
+                        </div>
+                        <div class="mode-card" data-mode="2">
+                            <h3>[ 2: BRAVO ]</h3>
+                            <p>MIXED CASE</p>
+                            <span class="sample">Tank RadarX Squad</span>
+                        </div>
+                        <div class="mode-card" data-mode="3">
+                            <h3>[ 3: CHARLIE ]</h3>
+                            <p>ALPHANUMERIC</p>
+                            <span class="sample">Tank99 Sector5 v2</span>
+                        </div>
+                        <div class="mode-card" data-mode="4">
+                            <h3>[ 4: DELTA ]</h3>
+                            <p>MAXIMUM THREAT</p>
+                            <span class="sample">[tank] x*y !alert!</span>
+                        </div>
+                    </div>
+                    <div class="footer-hint">PRESS [1-4] OR CLICK TO SELECT MODE</div>
+                </div>
+            </div>
+
+            <!-- INSTRUCTIONS SCREEN -->
+            <div id="screen-instructions" class="screen hidden">
+                <div class="panel">
+                    <h2>+---[ TACTICAL BRIEFING ]---+</h2>
+                    <div class="briefing-grid">
+                        <div class="col">
+                            <h3>// THREAT PROFILES</h3>
+                            <p>Hostile words fall from orbit. Neutralize threats before they breach the defense perimeter.</p>
+                            <p class="text-red">RED BONUS TARGETS grant 3.5x score and descend rapidly. They deploy anti-lock jamming on their first character.</p>
+                        </div>
+                        <div class="col">
+                            <h3>// TARGETING SYSTEM</h3>
+                            <p>Type initial characters to lock on. Automatically targets the lowest threat. Once locked, finish the sequence.</p>
+                            <p>Missed threats impact hull integrity (0% = FAILURE). Press ESC to abort sortie.</p>
+                        </div>
+                    </div>
+                    <div class="ready-prompt blink">PRESS [SPACE] OR [ENTER] TO ENGAGE</div>
+                </div>
+            </div>
+
+            <!-- GAME SCREEN -->
+            <div id="screen-game" class="screen hidden">
+                <div id="canvas-container">
+                    <canvas id="game-canvas"></canvas>
+                </div>
+            </div>
+
+            <!-- RESULT SCREEN -->
+            <div id="screen-result" class="screen hidden">
+                <div class="panel">
+                    <h2>+---[ SORTIE DEBRIEF ]---+</h2>
+                    <div class="metrics-grid">
+                        <div>FINAL SCORE: <span id="res-score"></span></div>
+                        <div>AVERAGE WPM: <span id="res-wpm"></span></div>
+                        <div>ACCURACY: <span id="res-acc"></span></div>
+                        <div>WORDS DESTROYED: <span id="res-words"></span></div>
+                        <div>MAX COMBO: <span id="res-combo"></span></div>
+                        <div>MODE PLAYED: <span id="res-mode"></span></div>
+                    </div>
+                    <div id="res-msg" class="res-msg"></div>
+                    <div class="actions">
+                        <button class="btn" onclick="App.showScreen('settings')">[ PLAY AGAIN (ENTER) ]</button>
+                        <button class="btn" onclick="App.showScreen('records')">[ FLIGHT LOGS (R) ]</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RECORDS SCREEN -->
+            <div id="screen-records" class="screen hidden">
+                <div class="panel records-panel">
+                    <h2>+---[ FLIGHT LOGS ]---+</h2>
+                    <div class="pb-grid">
+                        <div class="pb-card">MODE 1<br><span id="pb-m1">0</span></div>
+                        <div class="pb-card">MODE 2<br><span id="pb-m2">0</span></div>
+                        <div class="pb-card">MODE 3<br><span id="pb-m3">0</span></div>
+                        <div class="pb-card">MODE 4<br><span id="pb-m4">0</span></div>
+                    </div>
+                    <div class="filter-wrap">
+                        <span>FILTER:</span>
+                        <select id="record-filter" onchange="App.renderRecords()">
+                            <option value="ALL">ALL MODES</option>
+                            <option value="1">MODE 1</option>
+                            <option value="2">MODE 2</option>
+                            <option value="3">MODE 3</option>
+                            <option value="4">MODE 4</option>
+                        </select>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>DATE</th>
+                                    <th>MODE</th>
+                                    <th>SCORE</th>
+                                    <th>WPM</th>
+                                    <th>ACC</th>
+                                    <th>COMBO</th>
+                                </tr>
+                            </thead>
+                            <tbody id="records-tbody"></tbody>
+                        </table>
+                    </div>
+                    <div class="actions" style="margin-top: 15px;">
+                        <button class="btn" onclick="Storage.clearRecords(); App.renderRecords();">[ PURGE LOGS ]</button>
+                        <button class="btn" onclick="App.showScreen('settings')">[ BACK (ESC) ]</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/words.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
