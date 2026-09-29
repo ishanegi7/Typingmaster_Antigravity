@@ -184,7 +184,7 @@ The game is designed around a lightweight browser-native architecture.
 Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/type-tank.git
+git clone https://github.com/ishanegi7/type-tank.git
 cd type-tank
 ```
 Start a local server:
@@ -238,7 +238,7 @@ Add your gameplay screenshot or GIF here:
 ![TYPE//TANK Gameplay](./assets/gameplay.gif)
 
 🌐 Live Demo
-Add your deployed game URL here:
+
 
 ▶ PLAY TYPE//TANK
 
