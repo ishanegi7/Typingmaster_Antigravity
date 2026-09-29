@@ -184,7 +184,7 @@ The game is designed around a lightweight browser-native architecture.
 Clone the repository:
 
 ```bash
-git clone https://github.com/ishanegi7/type-tank.git
+git clone https://github.com/ishanegi7/Typingmaster_antigravity
 cd type-tank
 ```
 Start a local server:
