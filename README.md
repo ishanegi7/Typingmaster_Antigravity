@@ -86,7 +86,7 @@ Each mode challenges your speed, accuracy, and reaction time in different ways.
 
 ---
 
-## 📊 Flight Log
+## 📊 Flight Log.
 
 Your performance is tracked locally so you can improve your record over time.
 
@@ -188,7 +188,7 @@ git clone https://github.com/ishanegi7/Typingmaster_antigravity
 cd type-tank
 ```
 Start a local server:
-
+.
 python -m http.server
 
 Then open:
@@ -199,7 +199,7 @@ You can also open the HTML entry point directly in a modern browser.
 
 📁 Project Structure
 ```
-TYPE-TANK/
+TYPE-TANK/.
 │
 ├── index.html
 ├── style.css
@@ -245,7 +245,6 @@ Add your gameplay screenshot or GIF here:
 📜 License
 This project is licensed under the MIT License.
 
-See LICENSE for details.
 
 <div align="center">
 🕹️ TYPE//TANK
